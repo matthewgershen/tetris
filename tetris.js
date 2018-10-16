@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
   const game = new Game(canvas, ctx);
 
+  document.addEventListener("keydown", game.keydownHandler);
+  
   function drawFrame(){
     game.draw();
     requestAnimationFrame(drawFrame);

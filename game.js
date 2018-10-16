@@ -11,6 +11,8 @@ class Game{
     this.collisionHandling = this.collisionHandling.bind(this);
     this.collisionCheck = this.collisionCheck.bind(this);
     this.pieceCollision = this.pieceCollision.bind(this);
+    this.keydownHandler = this.keydownHandler.bind(this);
+    this.movePiece = this.movePiece.bind(this);
   }
 
 
@@ -72,6 +74,21 @@ class Game{
       }
     });
     return result;
+  }
+
+  movePiece(move){
+    this.activePiece.forEach((block)=>{
+      block.x += move;
+    });
+  }
+
+  keydownHandler(e){
+    if (e.keyCode === 39) {
+      this.movePiece(40);
+    } else if (e.keyCode === 37) {
+      this.movePiece(-40);
+    }
+
   }
 }
 
