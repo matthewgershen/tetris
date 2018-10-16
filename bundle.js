@@ -86,14 +86,36 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./block.js":
+/*!******************!*\
+  !*** ./block.js ***!
+  \******************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("class Block{\n  constructor(options){\n    this.x = options.x;\n    this.y = options.y;\n    this.dy = options.dy;\n  }\n\n  drawBlock(ctx){\n      this.y += this.dy;\n      ctx.beginPath();\n      ctx.rect(this.x, this.y, 40, 40);\n      ctx.fillStyle = \"#FF0000\";\n      ctx.fill();\n      ctx.closePath();\n    }\n\n}\n\nmodule.exports = Block;\n\n\n//# sourceURL=webpack:///./block.js?");
+
+/***/ }),
+
 /***/ "./game.js":
 /*!*****************!*\
   !*** ./game.js ***!
   \*****************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-eval("class Game{\n  constructor(canvas,ctx){\n    this.ctx = ctx;\n  }\n\n  draw(){\n    this.ctx.beginPath();\n    this.ctx.rect(20, 40, 50, 50);\n    this.ctx.fillStyle = \"#FF0000\";\n    this.ctx.fill();\n    this.ctx.closePath();\n  }\n}\n\n\nmodule.exports = Game;\n\n\n//# sourceURL=webpack:///./game.js?");
+eval("const Block = __webpack_require__(/*! ./block */ \"./block.js\");\nconst Piece = __webpack_require__(/*! ./piece */ \"./piece.js\");\n\nclass Game{\n  constructor(canvas,ctx){\n    this.ctx = ctx;\n    this.canvas = canvas;\n    this.activePiece = []\n    this.blocks = [];\n  }\n\n\n\n  draw(){\n    if (this.activePiece.length === 0) {\n      debugger\n      const piece = new Piece;\n      const blocks = piece.addPiece(\"i\");\n      this.activePiece = blocks;\n    }\n    this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);\n    this.activePiece.forEach((block)=>{\n      block.drawBlock(this.ctx);\n    });\n  }\n}\n\n\nmodule.exports = Game;\n\n\n//# sourceURL=webpack:///./game.js?");
+
+/***/ }),
+
+/***/ "./piece.js":
+/*!******************!*\
+  !*** ./piece.js ***!
+  \******************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const Block = __webpack_require__(/*! ./block */ \"./block.js\");\n\nclass Piece{\n  constructor(){\n    this.shapes = {\n      \"i\": [[180,0],[180,40],[180,80],[180,120]]\n    }\n  }\n\n  addPiece(type){\n    const piece = []\n    this.shapes[type].forEach((el)=>{\n      piece.push(new Block({x:el[0],y:el[1],dy:1}));\n    });\n    return piece\n  }\n}\n\nmodule.exports = Piece;\n\n\n//# sourceURL=webpack:///./piece.js?");
 
 /***/ }),
 
@@ -104,7 +126,7 @@ eval("class Game{\n  constructor(canvas,ctx){\n    this.ctx = ctx;\n  }\n\n  dra
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const Game = __webpack_require__(/*! ./game */ \"./game.js\");\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const canvas = document.getElementById(\"myCanvas\");\n  const ctx = canvas.getContext(\"2d\");\n  const game = new Game(canvas, ctx);\n  game.draw();\n\n});\n\n\n//# sourceURL=webpack:///./tetris.js?");
+eval("const Game = __webpack_require__(/*! ./game */ \"./game.js\");\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const canvas = document.getElementById(\"myCanvas\");\n  const ctx = canvas.getContext(\"2d\");\n  const game = new Game(canvas, ctx);\n\n  function drawFrame(){\n    game.draw();\n    requestAnimationFrame(drawFrame);\n  }\n  requestAnimationFrame(drawFrame);\n\n});\n\n\n//# sourceURL=webpack:///./tetris.js?");
 
 /***/ })
 
