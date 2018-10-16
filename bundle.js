@@ -104,7 +104,7 @@ eval("class Block{\n  constructor(options){\n    this.x = options.x;\n    this.y
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const Block = __webpack_require__(/*! ./block */ \"./block.js\");\nconst Piece = __webpack_require__(/*! ./piece */ \"./piece.js\");\n\nclass Game{\n  constructor(canvas,ctx){\n    this.ctx = ctx;\n    this.canvas = canvas;\n    this.activePiece = []\n    this.blocks = [];\n  }\n\n\n\n  draw(){\n    if (this.activePiece.length === 0) {\n      debugger\n      const piece = new Piece;\n      const blocks = piece.addPiece(\"i\");\n      this.activePiece = blocks;\n    }\n    this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);\n    this.activePiece.forEach((block)=>{\n      block.drawBlock(this.ctx);\n    });\n  }\n}\n\n\nmodule.exports = Game;\n\n\n//# sourceURL=webpack:///./game.js?");
+eval("const Block = __webpack_require__(/*! ./block */ \"./block.js\");\nconst Piece = __webpack_require__(/*! ./piece */ \"./piece.js\");\n\nclass Game{\n  constructor(canvas,ctx){\n    this.ctx = ctx;\n    this.canvas = canvas;\n    this.activePiece = []\n    this.blocks = [];\n  }\n\n\n\n  draw(){\n    if (this.activePiece.length === 0) {\n      const piece = new Piece;\n      const blocks = piece.addPiece(this.nextType());\n      this.activePiece = blocks;\n    }\n    this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);\n    this.activePiece.forEach((block)=>{\n      block.drawBlock(this.ctx);\n    });\n  }\n\n  nextType(){\n    const types = [\"i\",\"o\",\"t\",\"s\",\"z\",\"j\",\"l\"]\n    return types[Math.floor(Math.random() * types.length)];\n  }\n}\n\n\nmodule.exports = Game;\n\n\n//# sourceURL=webpack:///./game.js?");
 
 /***/ }),
 
@@ -115,7 +115,7 @@ eval("const Block = __webpack_require__(/*! ./block */ \"./block.js\");\nconst P
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const Block = __webpack_require__(/*! ./block */ \"./block.js\");\n\nclass Piece{\n  constructor(){\n    this.shapes = {\n      \"i\": [[180,0],[180,40],[180,80],[180,120]]\n    }\n  }\n\n  addPiece(type){\n    const piece = []\n    this.shapes[type].forEach((el)=>{\n      piece.push(new Block({x:el[0],y:el[1],dy:1}));\n    });\n    return piece\n  }\n}\n\nmodule.exports = Piece;\n\n\n//# sourceURL=webpack:///./piece.js?");
+eval("const Block = __webpack_require__(/*! ./block */ \"./block.js\");\n\nclass Piece{\n  constructor(){\n    this.shapes = {\n      \"i\": [[180,0],[180,40],[180,80],[180,120]],\n      \"o\": [[160,0],[160,40],[200,0],[200,40]],\n      \"t\": [[180,40],[180,0],[140,40],[220,40]],\n      \"s\": [[140,40],[180,0],[180,40],[220,0]],\n      \"z\": [[140,0],[180,0],[180,40],[220,40]],\n      \"j\": [[140,0],[140,40],[180,40],[220,40]],\n      \"l\": [[140,40],[180,40],[220,0],[220,40]]\n    }\n  }\n\n  addPiece(type){\n    const piece = []\n    this.shapes[type].forEach((el)=>{\n      piece.push(new Block({x:el[0],y:el[1],dy:1}));\n    });\n    return piece\n  }\n}\n\nmodule.exports = Piece;\n\n\n//# sourceURL=webpack:///./piece.js?");
 
 /***/ }),
 
