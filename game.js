@@ -77,9 +77,18 @@ class Game{
   }
 
   movePiece(move){
+    let outOfBounds = false
     this.activePiece.forEach((block)=>{
-      block.x += move;
+      let pos = block.x;
+      if (pos + move < 0 || pos + move > 360) {
+        outOfBounds = true
+      }
     });
+    if (outOfBounds === false) {
+      this.activePiece.forEach((block)=>{
+        block.x += move;
+      });
+    }
   }
 
   keydownHandler(e){
