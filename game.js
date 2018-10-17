@@ -6,6 +6,8 @@ class Game{
     this.ctx = ctx;
     this.canvas = canvas;
     this.activePiece = [];
+    this.activePieceRotate = 0;
+    this.activePieceRotate = "";
     this.staticPieces = [];
     this.createPiece = this.createPiece.bind(this);
     this.collisionHandling = this.collisionHandling.bind(this);
@@ -15,6 +17,7 @@ class Game{
     this.movePiece = this.movePiece.bind(this);
     this.sideBoundaryCheck = this.sideBoundaryCheck.bind(this);
     this.sideBlockCheck = this.sideBlockCheck.bind(this);
+    this.rotate = this.rotate.bind(this);
   }
 
 
@@ -34,15 +37,19 @@ class Game{
   }
 
   nextType(){
-    const types = ["i","o","t","s","z","j","l"];
-    return types[Math.floor(Math.random() * types.length)];
-    
+    // const types = ["i","o","t","s","z","j","l"];
+    // return types[Math.floor(Math.random() * types.length)];
+    return "s"
+
   }
 
   createPiece(){
     const piece = new Piece;
-    const blocks = piece.addPiece(this.nextType());
+    const type = this.nextType();
+    const blocks = piece.addPiece(type);
     this.activePiece = blocks;
+    this.activePieceRotate = 0;
+    this.activePieceType = type;
   }
 
   collisionHandling(){
@@ -120,6 +127,53 @@ class Game{
   }
 
   rotate(){
+    const rotations = {
+      "i":
+        { 0:[[-80,60],[-40,20],[0,-20],[40,-60]],
+          1:[[80,-60],[40,-20],[0,20],[-40,60]],
+          2:[[-80,60],[-40,20],[0,-20],[40,-60]],
+          3:[[80,-60],[40,-20],[0,20],[-40,60]]},
+      "o":
+        { 0:[[0,0],[0,0],[0,0],[0,0]],
+          1:[[0,0],[0,0],[0,0],[0,0]],
+          2:[[0,0],[0,0],[0,0],[0,0]],
+          3:[[0,0],[0,0],[0,0],[0,0]]},
+      "t":
+        { 0:[[40,40],[0,0],[0,0],[0,0]],
+          1:[[-40,-40],[0,80],[0,0],[0,0]],
+          2:[[0,0],[0,-80],[0,0],[-40,40]],
+          3:[[0,0],[0,0],[0,0],[40,-40]]},
+      "s":
+        { 0:[[40,0],[0,-40],[-40,0],[-80,-40]],
+          1:[[-40,0],[0,40],[40,0],[80,40]],
+          2:[[40,0],[0,-40],[-40,0],[-80,-40]],
+          3:[[-40,0],[0,40],[40,0],[80,40]]},
+      "z":
+        { 0:[[-80,60],[-40,20],[0,-20],[40,-60]],
+          1:[[80,-60],[40,-20],[0,20],[-40,60]],
+          2:[[-80,60],[-40,20],[0,-20],[40,-60]],
+          3:[[80,-60],[40,-20],[0,20],[-40,60]]},
+      "j":
+        { 0:[[-80,60],[-40,20],[0,-20],[40,-60]],
+          1:[[80,-60],[40,-20],[0,20],[-40,60]],
+          2:[[-80,60],[-40,20],[0,-20],[40,-60]],
+          3:[[80,-60],[40,-20],[0,20],[-40,60]]},
+      "l":
+        { 0:[[-80,60],[-40,20],[0,-20],[40,-60]],
+          1:[[80,-60],[40,-20],[0,20],[-40,60]],
+          2:[[-80,60],[-40,20],[0,-20],[40,-60]],
+          3:[[80,-60],[40,-20],[0,20],[-40,60]]},
+
+
+    };
+    let rotate = rotations[this.activePieceType][this.activePieceRotate];
+    debugger
+    for (var i = 0; i < rotate.length; i++) {
+      this.activePiece[i].x += rotate[i][0];
+      this.activePiece[i].y += rotate[i][1];
+    }
+    debugger
+    this.activePieceRotate = (this.activePieceRotate + 1)%4;
 
   }
 
@@ -133,7 +187,7 @@ class Game{
         block.y += 10;
       });
     } else if (e.keyCode === 38) {
-
+      this.rotate();
 
     }
 
