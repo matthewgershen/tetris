@@ -10,15 +10,15 @@ class Piece{
       "z": [[120,0],[160,0],[160,40],[200,40]],
       "j": [[120,0],[120,40],[160,40],[200,40]],
       "l": [[120,40],[160,40],[200,0],[200,40]]
-    }
+    };
   }
 
   addPiece(type){
-    const piece = []
+    const piece = [];
     this.shapes[type].forEach((el)=>{
       piece.push(new Block({x:el[0],y:el[1],dy:1, width: 40, height: 40}));
     });
-    return piece
+    return piece;
   }
 }
 

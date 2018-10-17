@@ -34,8 +34,9 @@ class Game{
   }
 
   nextType(){
-    const types = ["i","o","t","s","z","j","l"]
+    const types = ["i","o","t","s","z","j","l"];
     return types[Math.floor(Math.random() * types.length)];
+    
   }
 
   createPiece(){
@@ -83,26 +84,26 @@ class Game{
 
 
   sideBoundaryCheck(move){
-    let result = false
+    let result = false;
     this.activePiece.forEach((block)=>{
       let pos = block.x;
       if (pos + move < 0 || pos + move > 360) {
         result = true;
       }
     });
-    return result
+    return result;
   }
 
   sideBlockCheck(move){
 
-    let result = false
+    let result = false;
     this.activePiece.forEach((block)=>{
-      let hypotheticalBlock = new Block({x:block.x + move,y:block.y,width: 40, height: 40})
+      let hypotheticalBlock = new Block({x:block.x + move,y:block.y,width: 40, height: 40});
       if (this.pieceCollision(hypotheticalBlock)) {
         result = true;
       }
     });
-    return result
+    return result;
   }
 
   movePiece(move){
@@ -111,7 +112,6 @@ class Game{
 
     let sideBlocked = false;
     sideBlocked = this.sideBlockCheck(move);
-    debugger
     if (outOfBounds === false && sideBlocked === false) {
       this.activePiece.forEach((block)=>{
         block.x += move;
@@ -119,11 +119,22 @@ class Game{
     }
   }
 
+  rotate(){
+
+  }
+
   keydownHandler(e){
     if (e.keyCode === 39) {
       this.movePiece(40);
     } else if (e.keyCode === 37) {
       this.movePiece(-40);
+    } else if (e.keyCode === 40) {
+      this.activePiece.forEach((block)=>{
+        block.y += 10;
+      });
+    } else if (e.keyCode === 38) {
+
+
     }
 
   }
