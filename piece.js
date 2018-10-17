@@ -16,7 +16,7 @@ class Piece{
   addPiece(type){
     const piece = []
     this.shapes[type].forEach((el)=>{
-      piece.push(new Block({x:el[0],y:el[1],dy:1}));
+      piece.push(new Block({x:el[0],y:el[1],dy:1, width: 40, height: 40}));
     });
     return piece
   }

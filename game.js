@@ -13,6 +13,8 @@ class Game{
     this.pieceCollision = this.pieceCollision.bind(this);
     this.keydownHandler = this.keydownHandler.bind(this);
     this.movePiece = this.movePiece.bind(this);
+    this.sideBoundaryCheck = this.sideBoundaryCheck.bind(this);
+    this.sideBlockCheck = this.sideBlockCheck.bind(this);
   }
 
 
@@ -68,7 +70,10 @@ class Game{
     let result = false;
     this.staticPieces.forEach((staticBlock)=>{
       if (
-        block.y >= staticBlock.y - 40
+        (block.x < staticBlock.x + staticBlock.width &&
+         block.x + block.width > staticBlock.x &&
+         block.y < staticBlock.y + staticBlock.height + 1 &&
+         block.y + block.height + 1 > staticBlock.y)
       ) {
         result = true;
       }
@@ -76,15 +81,38 @@ class Game{
     return result;
   }
 
-  movePiece(move){
-    let outOfBounds = false
+
+  sideBoundaryCheck(move){
+    let result = false
     this.activePiece.forEach((block)=>{
       let pos = block.x;
       if (pos + move < 0 || pos + move > 360) {
-        outOfBounds = true
+        result = true;
       }
     });
-    if (outOfBounds === false) {
+    return result
+  }
+
+  sideBlockCheck(move){
+
+    let result = false
+    this.activePiece.forEach((block)=>{
+      let hypotheticalBlock = new Block({x:block.x + move,y:block.y,width: 40, height: 40})
+      if (this.pieceCollision(hypotheticalBlock)) {
+        result = true;
+      }
+    });
+    return result
+  }
+
+  movePiece(move){
+    let outOfBounds = false;
+    outOfBounds = this.sideBoundaryCheck(move);
+
+    let sideBlocked = false;
+    sideBlocked = this.sideBlockCheck(move);
+    debugger
+    if (outOfBounds === false && sideBlocked === false) {
       this.activePiece.forEach((block)=>{
         block.x += move;
       });
