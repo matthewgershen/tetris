@@ -9,6 +9,7 @@ class Game{
     this.activePieceRotate = 0;
     this.activePieceRotate = "";
     this.staticPieces = [];
+    this.ticker = 0;
     this.createPiece = this.createPiece.bind(this);
     this.collisionHandling = this.collisionHandling.bind(this);
     this.collisionCheck = this.collisionCheck.bind(this);
@@ -23,11 +24,19 @@ class Game{
 
 
   draw(){
+
+    this.ticker++;
     if (this.activePiece.length === 0) {
       this.createPiece();
     }
     this.collisionHandling();
     this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
+    if (this.ticker === 40) {
+      this.activePiece.forEach((block)=>{
+        block.y += 20;
+      });
+      this.ticker = 0;
+    }
     this.activePiece.forEach((block)=>{
       block.drawBlock(this.ctx);
     });
@@ -37,9 +46,9 @@ class Game{
   }
 
   nextType(){
-    // const types = ["i","o","t","s","z","j","l"];
-    // return types[Math.floor(Math.random() * types.length)];
-    return "l"
+    const types = ["i","o","t","s","z","j","l"];
+    return types[Math.floor(Math.random() * types.length)];
+
 
   }
 
@@ -50,12 +59,12 @@ class Game{
     this.activePiece = blocks;
     this.activePieceRotate = 0;
     this.activePieceType = type;
+
   }
 
   collisionHandling(){
     if (this.collisionCheck()) {
       this.activePiece.forEach((block)=>{
-        block.dy = 0;
         this.staticPieces.push(block);
       });
       this.activePiece = [];
@@ -129,7 +138,7 @@ class Game{
   rotate(){
     const rotations = {
       "i":
-        { 0:[[0,60],[-40,20],[0,-20],[40,-60]],
+        { 0:[[-80,60],[-40,20],[0,-20],[40,-60]],
           1:[[80,-60],[40,-20],[0,20],[-40,60]],
           2:[[-80,60],[-40,20],[0,-20],[40,-60]],
           3:[[80,-60],[40,-20],[0,20],[-40,60]]},
@@ -181,9 +190,9 @@ class Game{
     } else if (e.keyCode === 37) {
       this.movePiece(-40);
     } else if (e.keyCode === 40) {
-      this.activePiece.forEach((block)=>{
-        block.y += 10;
-      });
+      // this.activePiece.forEach((block)=>{
+      //   block.y += 20;
+      // });
     } else if (e.keyCode === 38) {
       this.rotate();
 
