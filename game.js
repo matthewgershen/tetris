@@ -11,6 +11,7 @@ class Game{
     this.staticPieces = [];
     this.ticker = 0;
     this.dropSpeed = 40;
+    this.linesToErase = [];
     this.createPiece = this.createPiece.bind(this);
     this.collisionHandling = this.collisionHandling.bind(this);
     this.collisionCheck = this.collisionCheck.bind(this);
@@ -22,12 +23,16 @@ class Game{
     this.rotate = this.rotate.bind(this);
     this.lineCheck = this.lineCheck.bind(this);
     this.keyupHandler = this.keyupHandler.bind(this);
+    this.lineErase = this.lineErase.bind(this);
   }
 
 
 
   draw(){
-
+    this.lineCheck();
+    if (this.linesToErase.length > 0) {
+      this.lineErase();
+    }
     this.ticker++;
     if (this.activePiece.length === 0) {
       this.createPiece();
@@ -51,16 +56,34 @@ class Game{
   nextType(){
     const types = ["i","o","t","s","z","j","l"];
     return types[Math.floor(Math.random() * types.length)];
-
-
   }
 
   lineCheck(){
-    // let hash = {};
-    // this.staticPieces.forEach((block)=>{
-    //   hash[block.y]++;
-    // });
-    // debugger
+    let hash = {};
+    this.staticPieces.forEach((block)=>{
+      if (hash[block.y]) {
+        hash[block.y]++
+      } else {
+        hash[block.y] = 1;
+      }
+    });
+    let result = Object.entries(hash).filter(pair => pair[1] === 10);
+    let lines = [];
+    result.forEach((pair)=>{
+      lines.push(parseInt(pair[0]));
+    });
+    this.linesToErase = lines.sort();
+  }
+
+  lineErase(){
+    this.linesToErase.forEach((line)=>{
+      this.staticPieces = this.staticPieces.filter(block => block.y !== line)
+      this.staticPieces.forEach((block)=>{
+        if (block.y < line) {
+          block.y += 40;
+        }
+      });
+    });
   }
 
   createPiece(){
