@@ -12,7 +12,7 @@ class Game{
     this.activePieceRotate = "";
     this.staticPieces = [];
     this.ticker = 0;
-    this.dropSpeed = 30;
+    this.dropSpeed = 60;
     this.linesToErase = [];
     this.createPiece = this.createPiece.bind(this);
     this.collisionHandling = this.collisionHandling.bind(this);
@@ -43,7 +43,7 @@ class Game{
     this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
     if (this.ticker === this.dropSpeed) {
       this.activePiece.forEach((block)=>{
-        block.y += 20;
+        block.y += 30;
       });
       this.ticker = 0;
     }
@@ -65,7 +65,17 @@ class Game{
         sides.push(new Block({x:i,y:j, width: 30, height: 30, colors: ["rgb(112, 112, 112)","rgb(89, 89, 89)"]}));
       }
     }
-    for (var i = 600; i < 900; i +=30) {
+    for (var i = 270; i < 300; i +=10) {
+      for (var j = 0; j < 600; j += 10) {
+        sides.push(new Block({x:i,y:j, width: 10, height: 10, colors: ["rgb(183, 55, 0)","rgb(89, 89, 89)"]}));
+      }
+    }
+    for (var i = 600; i < 630; i +=10) {
+      for (var j = 0; j < 600; j += 10) {
+        sides.push(new Block({x:i,y:j, width: 10, height: 10, colors: ["rgb(183, 55, 0)","rgb(89, 89, 89)"]}));
+      }
+    }
+    for (var i = 630; i < 900; i +=30) {
       for (var j = 0; j < 600; j += 30) {
         sides.push(new Block({x:i,y:j, width: 30, height: 30, colors: ["rgb(112, 112, 112)","rgb(89, 89, 89)"]}));
       }
@@ -192,10 +202,10 @@ class Game{
   rotate(){
     const rotations = {
       "i":
-        { 0:[[-60,60],[-30,20],[0,-20],[30,-60]],
-          1:[[60,-60],[30,-20],[0,20],[-30,60]],
-          2:[[-60,60],[-30,20],[0,-20],[30,-60]],
-          3:[[60,-60],[30,-20],[0,20],[-30,60]]},
+        { 0:[[-60,45],[-30,15],[0,-15],[30,-45]],
+          1:[[60,-45],[30,-15],[0,15],[-30,45]],
+          2:[[-60,45],[-30,15],[0,-15],[30,-45]],
+          3:[[60,-45],[30,-15],[0,15],[-30,45]]},
       "o":
         { 0:[[0,0],[0,0],[0,0],[0,0]],
           1:[[0,0],[0,0],[0,0],[0,0]],
@@ -255,7 +265,7 @@ class Game{
 
   keyupHandler(e){
     if (e.keyCode === 40) {
-      this.dropSpeed = 40;
+      this.dropSpeed = 60;
     }
   }
 }
