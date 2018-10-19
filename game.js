@@ -9,7 +9,10 @@ class Game{
     this.sides = this.createSides();
     this.activePiece = [];
     this.activePieceRotate = 0;
-    this.activePieceRotate = "";
+    this.activePieceType = "";
+    this.nextPiece = [];
+    this.nextPieceRotate = 0;
+    this.nextPieceType = "";
     this.staticPieces = [];
     this.ticker = 0;
     this.dropSpeed = 60;
@@ -31,12 +34,26 @@ class Game{
 
 
   draw(){
+
     this.lineCheck();
     if (this.linesToErase.length > 0) {
       this.lineErase();
     }
     this.ticker++;
     if (this.activePiece.length === 0) {
+
+      this.nextPiece.forEach((block)=>{
+        if (block.x === 735 || block.x === 765) {
+          block.x -= 315
+          block.y -= 435;
+        } else {
+          block.x -= 300;
+          block.y -= 435;
+        }
+      });
+      this.activePiece = this.nextPiece;
+      this.activePieceRotate = this.nextPieceRotate;
+      this.activePieceType = this.nextPieceType;
       this.createPiece();
     }
     this.collisionHandling();
@@ -51,6 +68,9 @@ class Game{
       block.drawBlock(this.ctx);
     });
     this.staticPieces.forEach((block)=>{
+      block.drawBlock(this.ctx);
+    });
+    this.nextPiece.forEach((block)=>{
       block.drawBlock(this.ctx);
     });
     this.sides.forEach((block)=>{
@@ -80,7 +100,11 @@ class Game{
         sides.push(new Block({x:i,y:j, width: 30, height: 30, colors: ["rgb(112, 112, 112)","rgb(89, 89, 89)"]}));
       }
     }
-    return sides;
+    return sides.filter(block => block.x < 690 ||
+      block.x > 810 ||
+      block.y < 390 ||
+      block.y > 510
+    );
   }
 
   nextType(){
@@ -92,9 +116,9 @@ class Game{
     const piece = new Piece;
     const type = this.nextType();
     const blocks = piece.addPiece(type);
-    this.activePiece = blocks;
-    this.activePieceRotate = 0;
-    this.activePieceType = type;
+    this.nextPiece = blocks;
+    this.nextPieceRotate = 0;
+    this.nextPieceType = type;
 
   }
   lineCheck(){
@@ -202,10 +226,10 @@ class Game{
   rotate(){
     const rotations = {
       "i":
-        { 0:[[-60,45],[-30,15],[0,-15],[30,-45]],
-          1:[[60,-45],[30,-15],[0,15],[-30,45]],
-          2:[[-60,45],[-30,15],[0,-15],[30,-45]],
-          3:[[60,-45],[30,-15],[0,15],[-30,45]]},
+        { 0:[[-60,30],[-30,0],[0,-30],[30,-60]],
+          1:[[60,-30],[30,0],[0,30],[-30,60]],
+          2:[[-60,30],[-30,0],[0,-30],[30,-60]],
+          3:[[60,-30],[30,0],[0,30],[-30,60]]},
       "o":
         { 0:[[0,0],[0,0],[0,0],[0,0]],
           1:[[0,0],[0,0],[0,0],[0,0]],
