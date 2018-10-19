@@ -5,12 +5,14 @@ class Game{
   constructor(canvas,ctx){
     this.ctx = ctx;
     this.canvas = canvas;
+    this.createSides = this.createSides.bind(this);
+    this.sides = this.createSides();
     this.activePiece = [];
     this.activePieceRotate = 0;
     this.activePieceRotate = "";
     this.staticPieces = [];
     this.ticker = 0;
-    this.dropSpeed = 40;
+    this.dropSpeed = 30;
     this.linesToErase = [];
     this.createPiece = this.createPiece.bind(this);
     this.collisionHandling = this.collisionHandling.bind(this);
@@ -51,6 +53,24 @@ class Game{
     this.staticPieces.forEach((block)=>{
       block.drawBlock(this.ctx);
     });
+    this.sides.forEach((block)=>{
+      block.drawBlock(this.ctx);
+    });
+  }
+
+  createSides(){
+    const sides = [];
+    for (var i = 0; i < 270; i +=30) {
+      for (var j = 0; j < 600; j += 30) {
+        sides.push(new Block({x:i,y:j, width: 30, height: 30, colors: ["rgb(112, 112, 112)","rgb(89, 89, 89)"]}));
+      }
+    }
+    for (var i = 600; i < 900; i +=30) {
+      for (var j = 0; j < 600; j += 30) {
+        sides.push(new Block({x:i,y:j, width: 30, height: 30, colors: ["rgb(112, 112, 112)","rgb(89, 89, 89)"]}));
+      }
+    }
+    return sides;
   }
 
   nextType(){
@@ -89,7 +109,7 @@ class Game{
       this.staticPieces = this.staticPieces.filter(block => block.y !== line)
       this.staticPieces.forEach((block)=>{
         if (block.y < line) {
-          block.y += 40;
+          block.y += 30;
         }
       });
     });
@@ -108,7 +128,7 @@ class Game{
   collisionCheck(){
     let result = false;
     this.activePiece.forEach((block)=>{
-      if (block.y >= 760) {
+      if (block.y >= 570) {
         result = true;
       } else if (this.pieceCollision(block)){
         result = true;
@@ -137,7 +157,7 @@ class Game{
     let result = false;
     this.activePiece.forEach((block)=>{
       let pos = block.x;
-      if (pos + move < 0 || pos + move > 360) {
+      if (pos + move < 300 || pos + move > 570) {
         result = true;
       }
     });
@@ -148,7 +168,7 @@ class Game{
 
     let result = false;
     this.activePiece.forEach((block)=>{
-      let hypotheticalBlock = new Block({x:block.x + move,y:block.y,width: 40, height: 40});
+      let hypotheticalBlock = new Block({x:block.x + move,y:block.y,width: 30, height: 30});
       if (this.pieceCollision(hypotheticalBlock)) {
         result = true;
       }
@@ -172,40 +192,40 @@ class Game{
   rotate(){
     const rotations = {
       "i":
-        { 0:[[-80,60],[-40,20],[0,-20],[40,-60]],
-          1:[[80,-60],[40,-20],[0,20],[-40,60]],
-          2:[[-80,60],[-40,20],[0,-20],[40,-60]],
-          3:[[80,-60],[40,-20],[0,20],[-40,60]]},
+        { 0:[[-60,60],[-30,20],[0,-20],[30,-60]],
+          1:[[60,-60],[30,-20],[0,20],[-30,60]],
+          2:[[-60,60],[-30,20],[0,-20],[30,-60]],
+          3:[[60,-60],[30,-20],[0,20],[-30,60]]},
       "o":
         { 0:[[0,0],[0,0],[0,0],[0,0]],
           1:[[0,0],[0,0],[0,0],[0,0]],
           2:[[0,0],[0,0],[0,0],[0,0]],
           3:[[0,0],[0,0],[0,0],[0,0]]},
       "t":
-        { 0:[[40,40],[0,0],[0,0],[0,0]],
-          1:[[-40,-40],[0,80],[0,0],[0,0]],
-          2:[[0,0],[0,-80],[0,0],[-40,40]],
-          3:[[0,0],[0,0],[0,0],[40,-40]]},
+        { 0:[[30,30],[0,0],[0,0],[0,0]],
+          1:[[-30,-30],[0,60],[0,0],[0,0]],
+          2:[[0,0],[0,-60],[0,0],[-30,30]],
+          3:[[0,0],[0,0],[0,0],[30,-30]]},
       "s":
-        { 0:[[40,0],[0,-40],[-40,0],[-80,-40]],
-          1:[[-40,0],[0,40],[40,0],[80,40]],
-          2:[[40,0],[0,-40],[-40,0],[-80,-40]],
-          3:[[-40,0],[0,40],[40,0],[80,40]]},
+        { 0:[[30,0],[0,-30],[-30,0],[-60,-30]],
+          1:[[-30,0],[0,30],[30,0],[60,30]],
+          2:[[30,0],[0,-30],[-30,0],[-60,-30]],
+          3:[[-30,0],[0,30],[30,0],[60,30]]},
       "z":
-        { 0:[[80,-40],[40,0],[0,-40],[-40,0]],
-          1:[[-80,40],[-40,0],[0,40],[40,0]],
-          2:[[80,-40],[40,0],[0,-40],[-40,0]],
-          3:[[-80,40],[-40,0],[0,40],[40,0]]},
+        { 0:[[60,-30],[30,0],[0,-30],[-30,0]],
+          1:[[-60,30],[-30,0],[0,30],[30,0]],
+          2:[[60,-30],[30,0],[0,-30],[-30,0]],
+          3:[[-60,30],[-30,0],[0,30],[30,0]]},
       "j":
-        { 0:[[0,40],[40,0],[0,-40],[-40,-80]],
-          1:[[40,0],[0,-40],[-40,0],[-80,40]],
-          2:[[0,-40],[-40,0],[0,40],[40,80]],
-          3:[[-40,0],[0,40],[40,0],[80,-40]]},
+        { 0:[[0,30],[30,0],[0,-30],[-30,-60]],
+          1:[[30,0],[0,-30],[-30,0],[-60,30]],
+          2:[[0,-30],[-30,0],[0,30],[30,60]],
+          3:[[-30,0],[0,30],[30,0],[60,-30]]},
       "l":
-        { 0:[[80,40],[40,0],[0,-40],[-40,0]],
-          1:[[40,-80],[0,-40],[-40,0],[0,40]],
-          2:[[-80,-40],[-40,0],[0,40],[40,0]],
-          3:[[-40,80],[0,40],[40,0],[0,-40]]},
+        { 0:[[60,30],[30,0],[0,-30],[-30,0]],
+          1:[[30,-60],[0,-30],[-30,0],[0,30]],
+          2:[[-60,-30],[-30,0],[0,30],[30,0]],
+          3:[[-30,60],[0,30],[30,0],[0,-30]]},
 
 
     };
@@ -220,9 +240,9 @@ class Game{
 
   keydownHandler(e){
     if (e.keyCode === 39) {
-      this.movePiece(40);
+      this.movePiece(30);
     } else if (e.keyCode === 37) {
-      this.movePiece(-40);
+      this.movePiece(-30);
     } else if (e.keyCode === 40) {
       this.ticker = 0;
       this.dropSpeed = 5;
