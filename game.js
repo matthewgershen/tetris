@@ -10,6 +10,7 @@ class Game{
     this.activePieceRotate = "";
     this.staticPieces = [];
     this.ticker = 0;
+    this.dropSpeed = 40;
     this.createPiece = this.createPiece.bind(this);
     this.collisionHandling = this.collisionHandling.bind(this);
     this.collisionCheck = this.collisionCheck.bind(this);
@@ -19,6 +20,8 @@ class Game{
     this.sideBoundaryCheck = this.sideBoundaryCheck.bind(this);
     this.sideBlockCheck = this.sideBlockCheck.bind(this);
     this.rotate = this.rotate.bind(this);
+    this.lineCheck = this.lineCheck.bind(this);
+    this.keyupHandler = this.keyupHandler.bind(this);
   }
 
 
@@ -31,7 +34,7 @@ class Game{
     }
     this.collisionHandling();
     this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
-    if (this.ticker === 40) {
+    if (this.ticker === this.dropSpeed) {
       this.activePiece.forEach((block)=>{
         block.y += 20;
       });
@@ -52,6 +55,14 @@ class Game{
 
   }
 
+  lineCheck(){
+    // let hash = {};
+    // this.staticPieces.forEach((block)=>{
+    //   hash[block.y]++;
+    // });
+    // debugger
+  }
+
   createPiece(){
     const piece = new Piece;
     const type = this.nextType();
@@ -68,6 +79,7 @@ class Game{
         this.staticPieces.push(block);
       });
       this.activePiece = [];
+      this.lineCheck();
     }
   }
 
@@ -190,14 +202,19 @@ class Game{
     } else if (e.keyCode === 37) {
       this.movePiece(-40);
     } else if (e.keyCode === 40) {
-      // this.activePiece.forEach((block)=>{
-      //   block.y += 20;
-      // });
+      this.ticker = 0;
+      this.dropSpeed = 5;
     } else if (e.keyCode === 38) {
       this.rotate();
 
     }
 
+  }
+
+  keyupHandler(e){
+    if (e.keyCode === 40) {
+      this.dropSpeed = 40;
+    }
   }
 }
 
