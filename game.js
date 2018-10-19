@@ -29,6 +29,7 @@ class Game{
     this.lineCheck = this.lineCheck.bind(this);
     this.keyupHandler = this.keyupHandler.bind(this);
     this.lineErase = this.lineErase.bind(this);
+    this.rotationCollisionCheck = this.rotationCollisionCheck.bind(this);
   }
 
 
@@ -264,12 +265,31 @@ class Game{
 
     };
     let rotate = rotations[this.activePieceType][this.activePieceRotate];
-    for (var i = 0; i < rotate.length; i++) {
-      this.activePiece[i].x += rotate[i][0];
-      this.activePiece[i].y += rotate[i][1];
-    }
-    this.activePieceRotate = (this.activePieceRotate + 1)%4;
+    if (this.rotationCollisionCheck(rotate) === false) {
 
+      for (var i = 0; i < rotate.length; i++) {
+        this.activePiece[i].x += rotate[i][0];
+        this.activePiece[i].y += rotate[i][1];
+      }
+      this.activePieceRotate = (this.activePieceRotate + 1)%4;
+    }
+
+  }
+
+  rotationCollisionCheck(rotate){
+    let result = false;
+    for (var i = 0; i < rotate.length; i++) {
+      let hypotheticalBlock = new Block({x:this.activePiece[i].x,y:this.activePiece[i].y,width: 30, height: 30});
+      hypotheticalBlock.x += rotate[i][0];
+      hypotheticalBlock.y += rotate[i][1];
+      if (this.pieceCollision(hypotheticalBlock)) {
+        result = true;
+      }
+      if (hypotheticalBlock.x > 570 || hypotheticalBlock.x < 300) {
+        result = true;
+      }
+    }
+    return result
   }
 
   keydownHandler(e){
