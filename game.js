@@ -58,11 +58,20 @@ class Game{
     return types[Math.floor(Math.random() * types.length)];
   }
 
+  createPiece(){
+    const piece = new Piece;
+    const type = this.nextType();
+    const blocks = piece.addPiece(type);
+    this.activePiece = blocks;
+    this.activePieceRotate = 0;
+    this.activePieceType = type;
+
+  }
   lineCheck(){
     let hash = {};
     this.staticPieces.forEach((block)=>{
       if (hash[block.y]) {
-        hash[block.y]++
+        hash[block.y]++;
       } else {
         hash[block.y] = 1;
       }
@@ -84,16 +93,6 @@ class Game{
         }
       });
     });
-  }
-
-  createPiece(){
-    const piece = new Piece;
-    const type = this.nextType();
-    const blocks = piece.addPiece(type);
-    this.activePiece = blocks;
-    this.activePieceRotate = 0;
-    this.activePieceType = type;
-
   }
 
   collisionHandling(){

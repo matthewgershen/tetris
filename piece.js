@@ -11,12 +11,22 @@ class Piece{
       "j": [[120,0],[120,40],[160,40],[200,40]],
       "l": [[120,40],[160,40],[200,40],[200,0]]
     };
+
+    this.colors = {
+      "i": ["rgb(251, 44, 44)","rgb(176, 118, 118)"],
+      "o": ["rgb(247, 220, 89)","rgb(186, 180, 150)"],
+      "t": ["rgb(77, 166, 48)","rgb(93, 133, 80)"],
+      "s": ["rgb(42, 176, 154)","rgb(75, 143, 132)"],
+      "z": ["rgb(31, 82, 192)","rgb(76, 99, 148)"],
+      "j": ["rgb(115, 76, 148)","rgb(113, 98, 125)"],
+      "l": ["rgb(192, 16, 174)","rgb(129, 79, 124)"]
+    };
   }
 
   addPiece(type){
     const piece = [];
     this.shapes[type].forEach((el)=>{
-      piece.push(new Block({x:el[0],y:el[1], width: 40, height: 40}));
+      piece.push(new Block({x:el[0],y:el[1], width: 40, height: 40, colors: this.colors[type]}));
     });
     return piece;
   }
