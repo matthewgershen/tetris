@@ -17,6 +17,9 @@ class Game{
     this.ticker = 0;
     this.dropSpeed = 60;
     this.linesToErase = [];
+    this.score = 0;
+    this.linesCleared = 0;
+    this.level = 1;
     this.createPiece = this.createPiece.bind(this);
     this.collisionHandling = this.collisionHandling.bind(this);
     this.collisionCheck = this.collisionCheck.bind(this);
@@ -30,6 +33,7 @@ class Game{
     this.keyupHandler = this.keyupHandler.bind(this);
     this.lineErase = this.lineErase.bind(this);
     this.rotationCollisionCheck = this.rotationCollisionCheck.bind(this);
+    this.scoringAndLevel = this.scoringAndLevel.bind(this);
   }
 
 
@@ -140,6 +144,7 @@ class Game{
   }
 
   lineErase(){
+    this.scoringAndLevel(this.linesToErase);
     this.linesToErase.forEach((line)=>{
       this.staticPieces = this.staticPieces.filter(block => block.y !== line)
       this.staticPieces.forEach((block)=>{
@@ -148,6 +153,14 @@ class Game{
         }
       });
     });
+  }
+
+  scoringAndLevel(linesToErase){
+    let lines = linesToErase.length
+    this.linesCleared = this.linesCleared + lines;
+    this.level = Math.floor(this.linesCleared/10);
+    this.score = this.score + (lines * lines * 100);
+    debugger
   }
 
   collisionHandling(){
