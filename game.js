@@ -123,7 +123,15 @@ class Game{
       (block.x < 690 ||
       block.x > 810 ||
       block.y < 60 ||
-      block.y > 90)
+      block.y > 90) &&
+      (block.x < 30 ||
+      block.x > 210 ||
+      block.y < 120 ||
+      block.y > 300) &&
+      (block.x < 30 ||
+      block.x > 210 ||
+      block.y < 420 ||
+      block.y > 510)
     );
   }
 

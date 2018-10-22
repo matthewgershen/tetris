@@ -13,6 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     game.draw();
     requestAnimationFrame(drawFrame);
   }
-  window.requestId = requestAnimationFrame(drawFrame);
+  requestAnimationFrame(drawFrame);
 
 });
