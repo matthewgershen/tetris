@@ -1,9 +1,21 @@
+body{
+  background-color: black;
+}
+
 canvas {
   background: #000000;
   display: block;
   margin: auto;
   border: 1px solid white;
 
+}
+
+.tetris{
+  position: absolute;
+  top: 42px;
+  left: 287px;
+  width: 200px;
+  height: 55px;
 
 }
 
