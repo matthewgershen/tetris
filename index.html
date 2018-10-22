@@ -1,12 +1,50 @@
 <html>
   <head>
     <title>Tetris</title>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-database.js"></script>
+    <script>
+
+      var config = {
+        apiKey: "AIzaSyAXWgXoEwvZLpPJMuXGuPjBBhZO5qJ8G3Q",
+        authDomain: "tetris-47467.firebaseapp.com",
+        databaseURL: "https://tetris-47467.firebaseio.com/",
+        projectId: "tetris-47467",
+        storageBucket: "tetris-47467.appspot.com"
+      };
+      firebase.initializeApp(config);
+      function saveScore(){
+        let newScore = {};
+        newScore.name = document.getElementById("name").value;
+        newScore.score = -parseInt(window.score);
+        firebase.database().ref('scores/').push(newScore);
+        document.getElementById("highScore").hidden = true;
+      }
+
+      const getScores = firebase.database().ref('scores/')
+      .orderByChild("score").limitToFirst(10);
+      getScores.on('child_added', (snapshot) => {
+        childScore = snapshot.val();
+        let scoreBoard = document.getElementById("scoreBoard");
+        scoreBoard.innerHTML += `<li><div>${childScore.name.toUpperCase()}</div><div>${-childScore.score}</div></li>`;
+      });
+    </script>
     <link href="main.css" rel="stylesheet" type="text/css">
   </head>
 
   <body>
     <canvas id="myCanvas" height="600px" width="900px"></canvas>
-
+    <div class="scores">
+    <h3>High Scores</h3>
+    <ul id="scoreBoard">
+    </ul>
+  </div>
+    <div id="highScore" hidden> Submit your score!
+      <form class="" action="index.html" method="post">
+        <input id= "name" type="text" name="" maxlength="3" autocomplete="off" placeholder="AAA"></br>
+        <input id= "submit" type="button" onClick="saveScore()" value="Submit">
+      </form>
+    </div>
 
     <script type="application/javascript" src="bundle.js"></script>
   </body>

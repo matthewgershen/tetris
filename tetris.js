@@ -9,9 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keyup", game.keyupHandler);
   game.drawSides();
   function drawFrame(){
+    if (game.gameOver) return;
     game.draw();
     requestAnimationFrame(drawFrame);
   }
-  requestAnimationFrame(drawFrame);
+  window.requestId = requestAnimationFrame(drawFrame);
 
 });

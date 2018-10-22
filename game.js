@@ -15,11 +15,12 @@ class Game{
     this.nextPieceType = "";
     this.staticPieces = [];
     this.ticker = 0;
-    this.dropSpeed = 60;
     this.linesToErase = [];
     this.score = 0;
     this.linesCleared = 0;
-    this.level = 1;
+    this.level = 0;
+    this.dropSpeed = (60-this.level) > 5 ? (60-this.level) : 5;
+    this.gameOver = false;
     this.createPiece = this.createPiece.bind(this);
     this.collisionHandling = this.collisionHandling.bind(this);
     this.collisionCheck = this.collisionCheck.bind(this);
@@ -36,6 +37,7 @@ class Game{
     this.scoringAndLevel = this.scoringAndLevel.bind(this);
     this.drawSides = this.drawSides.bind(this);
     this.drawScoresLevels = this.drawScoresLevels.bind(this);
+    this.gameOverCheck = this.gameOverCheck.bind(this);
   }
 
 
@@ -47,6 +49,7 @@ class Game{
       this.lineErase();
     }
     this.ticker++;
+    this.gameOverCheck();
     if (this.activePiece.length === 0) {
 
       this.nextPiece.forEach((block)=>{
@@ -201,6 +204,25 @@ class Game{
     this.linesCleared = this.linesCleared + lines;
     this.level = Math.floor(this.linesCleared/10);
     this.score = this.score + (lines * lines * 100);
+  }
+
+  gameOverCheck(){
+    this.nextPiece.forEach((block)=>{
+      let hypotheticalBlock = new Block({x:block.x,y:block.y,width: 30, height: 30});
+      if (hypotheticalBlock.x === 735 || hypotheticalBlock.x === 765) {
+        hypotheticalBlock.x -= 315
+        hypotheticalBlock.y -= 435;
+      } else {
+        hypotheticalBlock.x -= 300;
+        hypotheticalBlock.y -= 435;
+      }
+
+      if (this.pieceCollision(hypotheticalBlock)) {
+        this.gameOver = true;
+        window.score = this.score;
+        document.getElementById("highScore").hidden = false;
+      }
+    });
   }
 
   collisionHandling(){
