@@ -19,6 +19,7 @@
         newScore.score = -parseInt(window.score);
         firebase.database().ref('scores/').push(newScore);
         document.getElementById("highScore").hidden = true;
+        window.location.reload();
       }
 
       const getScores = firebase.database().ref('scores/')
@@ -29,6 +30,7 @@
         scoreBoard.innerHTML += `<li><div>${childScore.name.toUpperCase()}</div><div>${-childScore.score}</div></li>`;
       });
     </script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="main.css" rel="stylesheet" type="text/css">
   </head>
 
@@ -54,7 +56,14 @@
       <p> ↑ - rotate piece</p>
       <!-- <button id="mute">Mute</button> -->
     </div>
-
+    <div class="contact">
+      Made by Matthew Gershen
+      <ul class="icons">
+    		<li><a href="https://github.com/matthewgershen" <i class="fab fa-github"></i></a></li>
+    		<li><a href="https://www.linkedin.com/in/matthew-gershen/" <i class="fab fa-linkedin"></i></a></li>
+    		<li><a href="https://angel.co/matthew-gershen-1" <i class="fab fa-angellist"></i></a></li>
+  	 </ul>
+   </div>
     <script type="application/javascript" src="bundle.js"></script>
   </body>
 </html>
