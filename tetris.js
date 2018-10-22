@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.addEventListener("keydown", game.keydownHandler);
   document.addEventListener("keyup", game.keyupHandler);
-
+  game.drawSides();
   function drawFrame(){
     game.draw();
     requestAnimationFrame(drawFrame);

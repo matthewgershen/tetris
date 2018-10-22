@@ -34,6 +34,8 @@ class Game{
     this.lineErase = this.lineErase.bind(this);
     this.rotationCollisionCheck = this.rotationCollisionCheck.bind(this);
     this.scoringAndLevel = this.scoringAndLevel.bind(this);
+    this.drawSides = this.drawSides.bind(this);
+    this.drawScoresLevels = this.drawScoresLevels.bind(this);
   }
 
 
@@ -62,7 +64,10 @@ class Game{
       this.createPiece();
     }
     this.collisionHandling();
-    this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(300,0,300,600);
+    this.ctx.clearRect(690,390,150,150);
+    this.ctx.clearRect(690,60,150,60);
+    this.ctx.clearRect(690,210,150,60);
     if (this.ticker === this.dropSpeed) {
       this.activePiece.forEach((block)=>{
         block.y += 30;
@@ -78,9 +83,7 @@ class Game{
     this.nextPiece.forEach((block)=>{
       block.drawBlock(this.ctx);
     });
-    this.sides.forEach((block)=>{
-      block.drawBlock(this.ctx);
-    });
+    this.drawScoresLevels();
   }
 
   createSides(){
@@ -105,11 +108,49 @@ class Game{
         sides.push(new Block({x:i,y:j, width: 30, height: 30, colors: ["rgb(112, 112, 112)","rgb(89, 89, 89)"]}));
       }
     }
-    return sides.filter(block => block.x < 690 ||
+    return sides.filter(block =>
+      (block.x < 690 ||
       block.x > 810 ||
       block.y < 390 ||
-      block.y > 510
+      block.y > 510) &&
+      (block.x < 690 ||
+      block.x > 810 ||
+      block.y < 210 ||
+      block.y > 240) &&
+      (block.x < 690 ||
+      block.x > 810 ||
+      block.y < 60 ||
+      block.y > 90)
     );
+  }
+
+  drawSides(){
+    this.sides.forEach((block)=>{
+      block.drawBlock(this.ctx);
+    });
+  }
+
+  drawScoresLevels(){
+    this.ctx.font = `22px Gadget`;
+    this.ctx.fillStyle = "gray";
+    this.ctx.textAlign = "center";
+    this.ctx.fillText("Score", 765, 78);
+
+    this.ctx.font = `22px Gadget`;
+    this.ctx.fillStyle = "gray";
+    this.ctx.textAlign = "center";
+    this.ctx.fillText(this.score, 765, 105);
+
+    this.ctx.font = `22px Gadget`;
+    this.ctx.fillStyle = "gray";
+    this.ctx.textAlign = "center";
+    this.ctx.fillText("Level", 765, 228);
+
+    this.ctx.font = `22px Gadget`;
+    this.ctx.fillStyle = "gray";
+    this.ctx.textAlign = "center";
+    this.ctx.fillText(this.level, 765, 255);
+
   }
 
   nextType(){
@@ -160,7 +201,6 @@ class Game{
     this.linesCleared = this.linesCleared + lines;
     this.level = Math.floor(this.linesCleared/10);
     this.score = this.score + (lines * lines * 100);
-    debugger
   }
 
   collisionHandling(){
