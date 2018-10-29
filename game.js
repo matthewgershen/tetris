@@ -233,6 +233,7 @@ class Game{
         this.gameOver = true;
         window.score = this.score;
         document.getElementById("highScore").hidden = false;
+        document.getElementById("restart").hidden = false;
       }
     });
   }

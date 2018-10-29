@@ -15,7 +15,7 @@
       firebase.initializeApp(config);
       function saveScore(){
         let newScore = {};
-        newScore.name = document.getElementById("name").value;
+        newScore.name = document.getElementById("name").value || "AAA";
         newScore.score = -parseInt(window.score);
         firebase.database().ref('scores/').push(newScore);
         document.getElementById("highScore").hidden = true;
@@ -36,12 +36,6 @@
 
   <body>
     <canvas id="myCanvas" height="600px" width="900px"></canvas>
-    <div class="scores">
-      <h3>High Scores</h3>
-      <ul id="scoreBoard">
-      </ul>
-    </div>
-    <img class="tetris" src="./tetris.png" alt="">
     <div id="highScore" hidden>
       <h3>GAME OVER</h3>
       <p>Submit your score!</p>
@@ -50,20 +44,26 @@
         <input id= "submit" type="button" onClick="saveScore()" value="Submit">
       </form>
     </div>
+    <img class="tetris" src="./tetris.png" alt="">
+    <div class="scores">
+      <h3>High Scores</h3>
+      <ul id="scoreBoard">
+      </ul>
+    </div>
 
     <div class="instructions">
       <p> ←, →, ↓ - move piece</p>
       <p> ↑ - rotate piece</p>
-      <!-- <button id="mute">Mute</button> -->
+      <button id="restart" >Restart</button>
     </div>
     <div class="contact">
       Made by Matthew Gershen
       <ul class="icons">
-    		<li><a href="https://github.com/matthewgershen" <i class="fab fa-github"></i></a></li>
-    		<li><a href="https://www.linkedin.com/in/matthew-gershen/" <i class="fab fa-linkedin"></i></a></li>
-    		<li><a href="https://angel.co/matthew-gershen-1" <i class="fab fa-angellist"></i></a></li>
-  	 </ul>
-   </div>
+        <li><a href="https://github.com/matthewgershen" <i class="fab fa-github"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/matthew-gershen/" <i class="fab fa-linkedin"></i></a></li>
+        <li><a href="https://angel.co/matthew-gershen-1" <i class="fab fa-angellist"></i></a></li>
+      </ul>
+    </div>
     <script type="application/javascript" src="bundle.js"></script>
   </body>
 </html>
