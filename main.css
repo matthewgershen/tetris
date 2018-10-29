@@ -2,30 +2,32 @@ body{
   background-color: #989898;
 
 }
+.wrap {
+  margin: auto;
+  width: 900px;
+  position: relative;
+}
 
 canvas {
   background: #000000;
-  position: relative;
   display: block;
-  margin: auto;
-
-
 }
 
 
 .tetris{
   position: absolute;
-  top: 40px;
-  left: 424px;
+  top: 33px;
+  left: 32px;
   width: 200px;
   height: 55px;
+  z-index: 1;
 
 }
 
 .scores{
   position: absolute;
-  top: 128px;
-  left: 424px;
+  top: 121px;
+  left: 32px;
   color: gray;
   width: 210px;
   max-height: 212px;
@@ -53,7 +55,7 @@ canvas {
   color: white;
   position: absolute;
   top: 200px;
-  left: 740px;
+  left: 350px;
   width: 200px;
   text-align: center;
   background: rgba(0, 0, 0, 0.75);
@@ -71,8 +73,8 @@ canvas {
 
 .instructions{
   position: absolute;
-  top: 430px;
-  left: 424px;
+  top: 425px;
+  left: 32px;
   color: gray;
   text-align: center;
   width: 210px;
