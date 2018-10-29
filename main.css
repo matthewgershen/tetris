@@ -110,3 +110,15 @@ a:hover{
   color: #606060;
 
 }
+
+#pause{
+  color: white;
+  position: absolute;
+  top: 200px;
+  left: 350px;
+  width: 200px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 3px;
+
+}

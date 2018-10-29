@@ -19,6 +19,7 @@ class Game{
     this.score = 0;
     this.linesCleared = 0;
     this.level = 0;
+    this.pause = false;
     this.dropSpeed = (60-this.level) > 5 ? (60-this.level) : 5;
     this.gameOver = false;
     this.createPiece = this.createPiece.bind(this);
@@ -43,7 +44,7 @@ class Game{
 
 
   draw(){
-
+    
     this.lineCheck();
     if (this.linesToErase.length > 0) {
       this.lineErase();
@@ -390,7 +391,14 @@ class Game{
       this.dropSpeed = 5;
     } else if (e.keyCode === 38) {
       this.rotate();
-
+    } else if (e.keyCode === 32) {
+      if (this.pause) {
+        this.pause = false;
+        document.getElementById("pause").hidden = true;
+      } else {
+        this.pause = true;
+        document.getElementById("pause").hidden = false;
+      }
     }
 
   }

@@ -44,6 +44,9 @@
             <input id= "submit" type="button" onClick="saveScore()" value="Submit">
           </form>
         </div>
+        <div id="pause" hidden>
+          <h3>Paused</h3>
+        </div>
         <img class="tetris" src="./tetris.png" alt="">
         <div class="scores">
           <h3>High Scores</h3>
@@ -52,8 +55,9 @@
         </div>
 
         <div class="instructions">
-          <p> ←, →, ↓ - move piece</p>
-          <p> ↑ - rotate piece</p>
+          <p> ←, →, ↓ - move piece </br>
+           ↑ - rotate piece</br>
+           'space' - pause game</p>
           <button id="restart" >Restart</button>
         </div>
         <canvas id="myCanvas" height="600px" width="900px"></canvas>
