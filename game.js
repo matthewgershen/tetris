@@ -22,7 +22,7 @@ class Game{
     this.moveLeft = false;
     this.moveRight = false;
     this.pause = false;
-    this.dropSpeed = (60-this.level) > 5 ? (60-this.level) : 5;
+    this.dropSpeed = (60-this.level) > 10 ? (60-this.level) : 10;
     this.gameOver = false;
     this.createPiece = this.createPiece.bind(this);
     this.collisionHandling = this.collisionHandling.bind(this);
