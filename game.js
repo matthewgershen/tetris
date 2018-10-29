@@ -19,6 +19,8 @@ class Game{
     this.score = 0;
     this.linesCleared = 0;
     this.level = 0;
+    this.moveLeft = false;
+    this.moveRight = false;
     this.pause = false;
     this.dropSpeed = (60-this.level) > 5 ? (60-this.level) : 5;
     this.gameOver = false;
@@ -44,7 +46,7 @@ class Game{
 
 
   draw(){
-    
+
     this.lineCheck();
     if (this.linesToErase.length > 0) {
       this.lineErase();
@@ -66,6 +68,11 @@ class Game{
       this.activePieceRotate = this.nextPieceRotate;
       this.activePieceType = this.nextPieceType;
       this.createPiece();
+    }
+    if (this.moveRight && this.ticker % 4 === 0) {
+      this.movePiece(30);
+    } else if (this.moveLeft && this.ticker % 4 === 0) {
+      this.movePiece(-30);
     }
     this.collisionHandling();
     this.ctx.clearRect(300,0,300,600);
@@ -383,9 +390,9 @@ class Game{
 
   keydownHandler(e){
     if (e.keyCode === 39) {
-      this.movePiece(30);
+      this.moveRight = true;
     } else if (e.keyCode === 37) {
-      this.movePiece(-30);
+      this.moveLeft = true;
     } else if (e.keyCode === 40) {
       this.ticker = 0;
       this.dropSpeed = 5;
@@ -406,6 +413,10 @@ class Game{
   keyupHandler(e){
     if (e.keyCode === 40) {
       this.dropSpeed = 60;
+    } else if (e.keyCode === 39) {
+      this.moveRight = false;
+    } else if (e.keyCode === 37) {
+      this.moveLeft = false;
     }
   }
 }
