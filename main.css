@@ -41,7 +41,7 @@ canvas {
 }
 
 #scoreBoard{
-  margin: 5px 0;
+  margin: 0px 0;
   padding: 0 22px;
   list-style: none;
 }
@@ -73,7 +73,7 @@ canvas {
 
 .instructions{
   position: absolute;
-  top: 425px;
+  top: 410px;
   left: 32px;
   color: gray;
   text-align: center;
