@@ -59,11 +59,14 @@
            ↑ - rotate piece</br>
            'space' - pause game</p>
           <button id="restart" >Restart</button>
+          <button id="mute" >Music Off</button>
+          <button id="unmute" hidden>Music On</button>
         </div>
         <canvas id="myCanvas" height="600px" width="900px"></canvas>
-        <!-- <audio autoplay loop>
-          <source src="./tetristest.mp3" type="audio/mpeg">
-        </audio> -->
+        <audio id="background_audio" autoplay loop>
+          <source src="./tetristest.ogg" type="audio/ogg">
+          <source src="./tetristest.mp3" type="audio/mp3">
+        </audio>
     </div>
     <div class="contact">
       Made by Matthew Gershen
